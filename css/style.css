@@ -271,6 +271,7 @@ button {
      text-transform: uppercase;
      text-decoration: none;
      border: none;
+     margin-bottom: 10px;
 }
 
 .read_more:hover {

@@ -45,7 +45,39 @@
                      <input type="hidden" name="ik_act" value="process"/>
                      <input type="hidden" name="ik_int" value="json"/>
                      <input type="hidden" name="ik_desc" value="sdj123"/>
-                     <input type="submit" value="PAY" class="read_more">
+                     <input type="submit" value="Multibanco" class="read_more">
+                  </form>
+                  <form id="paymentForm1" name="payment" method="post" action="https://sci.interkassa.com/" accept-charset="UTF-8">
+                     <input type="hidden" name="ik_co_id" value="5cc46dbf3b1eafa81e8b4567"/>
+                     <input type="hidden" name="ik_pm_no" value="ID_4233"/>
+                     <input type="hidden" name="ik_am" value="6.6"/>
+                     <input type="hidden" name="ik_cur" value="EUR"/>
+                     <input type="hidden" name="ik_payment_method" value="bancontact"/>
+                     <input type="hidden" name="ik_customer_first_name" value="John"/>
+                     <input type="hidden" name="ik_customer_last_name" value="Smith"/>
+                     <input type="hidden" name="ik_customer_ip" value="89.214.157.10"/>
+                     <input type="hidden" name="ik_customer_email" value="mailnotmail@gmail.com"/>
+                     <input type="hidden" name="ik_payment_currency" value="EUR"/>
+                     <input type="hidden" name="ik_act" value="process"/>
+                     <input type="hidden" name="ik_int" value="json"/>
+                     <input type="hidden" name="ik_desc" value="sdj123"/>
+                     <input type="submit" value="Bancontact" class="read_more">
+                  </form>
+                  <form id="paymentForm2" name="payment" method="post" action="https://sci.interkassa.com/" accept-charset="UTF-8">
+                     <input type="hidden" name="ik_co_id" value="5cc46dbf3b1eafa81e8b4567"/>
+                     <input type="hidden" name="ik_pm_no" value="ID_4233"/>
+                     <input type="hidden" name="ik_am" value="2"/>
+                     <input type="hidden" name="ik_cur" value="EUR"/>
+                     <input type="hidden" name="ik_payment_method" value="neosurf"/>
+                     <input type="hidden" name="ik_customer_first_name" value="John"/>
+                     <input type="hidden" name="ik_customer_last_name" value="Smith"/>
+                     <input type="hidden" name="ik_customer_ip" value="89.214.157.10"/>
+                     <input type="hidden" name="ik_customer_email" value="mailnotmail@gmail.com"/>
+                     <input type="hidden" name="ik_payment_currency" value="EUR"/>
+                     <input type="hidden" name="ik_act" value="process"/>
+                     <input type="hidden" name="ik_int" value="json"/>
+                     <input type="hidden" name="ik_desc" value="sdj123"/>
+                     <input type="submit" value="Neosurf" class="read_more">
                   </form>
                </div>
                
@@ -118,46 +150,50 @@
 
    
       <script>
-         document.addEventListener('DOMContentLoaded', function() {
-           var form = document.getElementById('paymentForm');
-           if (form) {
-             form.addEventListener('submit', function(event) {
-               event.preventDefault(); // Prevent the default form submission
-     
-               var formData = new FormData(this);
-     
-               fetch(this.action, {
-                 method: this.method,
-                 body: formData,
-                 headers: {
-                   'Accept': 'application/json',
-                 },
-               })
-               .then(response => {
-                 if (!response.ok) {
-                   throw new Error('Network response was not ok');
-                 }
-                 return response.json();
-               })
-               .then(data => {
-                 console.log('Success:', data); // For debugging purposes
-                 if (data.resultCode === 0 && data.resultMsg === "Success") {
-                   var actionUrl = data.resultData.paymentForm.action;
-                   window.location.href = actionUrl; // Redirect to the provided action URL
-                 } else {
-                   alert('Payment failed: ' + data.resultMsg);
-                 }
-               })
-               .catch(error => {
-                 console.error('Error:', error);
-                 alert('An error occurred. Please try again.');
-               });
-             });
-           } else {
-             console.error('Form with id "paymentForm" not found.');
-           }
-         });
-       </script>
+        document.addEventListener('DOMContentLoaded', function() {
+          var formIds = ['paymentForm', 'paymentForm1', 'paymentForm2'];
+          
+          formIds.forEach(function(formId) {
+            var form = document.getElementById(formId);
+            if (form) {
+              form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                var formData = new FormData(this);
+
+                fetch(this.action, {
+                  method: this.method,
+                  body: formData,
+                  headers: {
+                    'Accept': 'application/json',
+                  },
+                })
+                .then(response => {
+                  if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                  }
+                  return response.json();
+                })
+                .then(data => {
+                  console.log('Success:', data); // For debugging purposes
+                  if (data.resultCode === 0 && data.resultMsg === "Success") {
+                    var actionUrl = data.resultData.paymentForm.action;
+                    window.location.href = actionUrl; // Redirect to the provided action URL
+                  } else {
+                    alert('Payment failed: ' + data.resultMsg);
+                  }
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                  alert('An error occurred. Please try again.');
+                });
+              });
+            } else {
+              console.error('Form with id "' + formId + '" not found.');
+            }
+          });
+        });
+</script>
    </body>
 </html>
 
